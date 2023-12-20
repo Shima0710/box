@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>回転する図形</title>
+  <style>
+    /* スタイル */
+    .cube-container {
+      perspective: 600px;
+      width: 300px;
+      height: 300px;
+      margin: 50px auto;
+    }
+
+    .cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+
+    .face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 2px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .face img {
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 1s ease; /* 画像切り替え時のトランジション */
+    }
+
+    .face:nth-child(1) { transform: translateZ(150px); }
+    .face:nth-child(2) { transform: rotateY(90deg) translateZ(150px); }
+    .face:nth-child(3) { transform: rotateY(180deg) translateZ(150px); }
+    .face:nth-child(4) { transform: rotateY(-90deg) translateZ(150px); }
+  </style>
+</head>
+<body>
+  <div class="cube-container" id="cubeContainer">
+    <div class="cube" id="cube">
+      <div class="face"><img src="https://sugata-online.com/cdn/shop/products/wh1_540x.jpg?v=1673516399" alt="Image 1"></div>
+      <div class="face"><img src="https://sugata-online.com/cdn/shop/products/bk1_ebdc108d-4b45-4991-8da4-f44eea133e0b_540x.jpg?v=1673516536" alt="Image 2"></div>
+      <div class="face"><img src="https://sugata-online.com/cdn/shop/products/tee-grn-yel-1_540x.jpg?v=1661408318" alt="Image 3"></div>
+      <div class="face"><img src="https://sugata-online.com/cdn/shop/products/tee-org-grn-1_540x.jpg?v=1661407842" alt="Image 4"></div>
+    </div>
+  </div>
+
+  <script>
+    let isDragging = false;
+    let startX, rotateX = 0, rotateY = 0;
+
+    const cube = document.getElementById('cube');
+    const images = cube.querySelectorAll('.face img');
+
+    cube.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+    });
+
+    cube.addEventListener('mouseleave', () => {
+      isDragging = false;
+    });
+
+    cube.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    cube.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const moveX = e.clientX - startX;
+      rotateY += moveX * 0.5;
+      cube.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+      startX = e.clientX;
+
+      if (rotateY > 90 && rotateY < 270) {
+        images[1].style.transition = 'none';
+        images[1].style.transform = 'translateZ(150px)';
+      } else {
+        images[1].style.transition = 'transform 1s ease';
+        images[1].style.transform = '';
+      }
+    });
+  </script>
+</body>
+</html>

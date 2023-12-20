@@ -9,7 +9,8 @@
       perspective: 600px;
       width: 300px;
       height: 300px;
-      margin: 50px auto;
+      margin: 150px  auto;
+      
     }
 
     .cube {
@@ -71,7 +72,7 @@
     function dragRotate(e) {
       if (!isDragging) return;
 
-      const clientX = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
+      const clientX = (e.type === 'touchmove') ? e.touches[10].clientX : e.clientX;
       const moveX = clientX - startX;
       rotateY += moveX * 0.5;
       cube.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;

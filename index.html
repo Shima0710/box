@@ -59,25 +59,23 @@
     const cube = document.getElementById('cube');
     const images = cube.querySelectorAll('.face img');
 
-    cube.addEventListener('mousedown', (e) => {
+    function startDragging(e) {
       isDragging = true;
-      startX = e.clientX;
-    });
+      startX = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+    }
 
-    cube.addEventListener('mouseleave', () => {
+    function stopDragging() {
       isDragging = false;
-    });
+    }
 
-    cube.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
-    cube.addEventListener('mousemove', (e) => {
+    function dragRotate(e) {
       if (!isDragging) return;
-      const moveX = e.clientX - startX;
+
+      const clientX = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
+      const moveX = clientX - startX;
       rotateY += moveX * 0.5;
       cube.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-      startX = e.clientX;
+      startX = clientX;
 
       if (rotateY > 90 && rotateY < 270) {
         images[1].style.transition = 'none';
@@ -86,7 +84,17 @@
         images[1].style.transition = 'transform 1s ease';
         images[1].style.transform = '';
       }
-    });
+    }
+
+    cube.addEventListener('mousedown', startDragging);
+    cube.addEventListener('touchstart', startDragging);
+
+    cube.addEventListener('mouseleave', stopDragging);
+    cube.addEventListener('mouseup', stopDragging);
+    cube.addEventListener('touchend', stopDragging);
+
+    cube.addEventListener('mousemove', dragRotate);
+    cube.addEventListener('touchmove', dragRotate);
   </script>
 </body>
 </html>

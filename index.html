@@ -9,8 +9,8 @@
       perspective: 600px;
       width: 300px;
       height: 300px;
-      margin: 150px  auto;
-      
+      margin: 150px auto;
+      touch-action: none; /* タッチ操作をブロックするために追加 */
     }
 
     .cube {
@@ -18,7 +18,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.5s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1); /* アニメーションのスムーズ化 */
     }
 
     .face {
@@ -55,7 +55,7 @@
 
   <script>
     let isDragging = false;
-    let startX, rotateX = 0, rotateY = 0;
+    let startX, currentX = 0, previousX = 0, rotateX = 0, rotateY = 0;
 
     const cube = document.getElementById('cube');
     const images = cube.querySelectorAll('.face img');
@@ -63,20 +63,24 @@
     function startDragging(e) {
       isDragging = true;
       startX = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+      previousX = startX;
     }
 
     function stopDragging() {
       isDragging = false;
+      currentX = 0;
+      previousX = 0;
     }
 
     function dragRotate(e) {
       if (!isDragging) return;
 
-      const clientX = (e.type === 'touchmove') ? e.touches[10].clientX : e.clientX;
+      const clientX = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
       const moveX = clientX - startX;
-      rotateY += moveX * 0.5;
+      currentX += moveX;
+
+      rotateY += (currentX - previousX) * 35;
       cube.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-      startX = clientX;
 
       if (rotateY > 90 && rotateY < 270) {
         images[1].style.transition = 'none';
@@ -85,6 +89,8 @@
         images[1].style.transition = 'transform 1s ease';
         images[1].style.transform = '';
       }
+
+      previousX = currentX;
     }
 
     cube.addEventListener('mousedown', startDragging);

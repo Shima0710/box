@@ -34,7 +34,7 @@
     .face img {
       max-width: 100%;
       max-height: 100%;
-      transition: transform 1s ease; /* 画像切り替え時のトランジション */
+      transition: transform 0s ease; /* 画像切り替え時のトランジション */
     }
 
     .face:nth-child(1) { transform: translateZ(150px); }
@@ -56,7 +56,7 @@
   <script>
     let isDragging = false;
     let startX, currentX = 0, previousX = 0, rotateX = 0, rotateY = 0;
-    const rotationSpeed = 0.095; // 回転速度を調整するための変数
+    const rotationSpeed = 0.3; // 回転速度を調整するための変数
 
     const cube = document.getElementById('cube');
     const images = cube.querySelectorAll('.face img');
@@ -94,6 +94,11 @@
       previousX = currentX;
     }
 
+    function rotate45Degrees() {
+      rotateY += 90;
+      cube.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+    }
+
     cube.addEventListener('mousedown', startDragging);
     cube.addEventListener('touchstart', startDragging);
 
@@ -103,6 +108,8 @@
 
     cube.addEventListener('mousemove', dragRotate);
     cube.addEventListener('touchmove', dragRotate);
+
+    cube.addEventListener('click', rotate45Degrees);
   </script>
 </body>
 </html>

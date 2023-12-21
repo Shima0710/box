@@ -56,6 +56,7 @@
   <script>
     let isDragging = false;
     let startX, currentX = 0, previousX = 0, rotateX = 0, rotateY = 0;
+    const rotationSpeed = 0.01; // 回転速度を調整するための変数
 
     const cube = document.getElementById('cube');
     const images = cube.querySelectorAll('.face img');
@@ -79,7 +80,7 @@
       const moveX = clientX - startX;
       currentX += moveX;
 
-      rotateY += (currentX - previousX) * 35;
+      rotateY += (currentX - previousX) * rotationSpeed; // 回転速度を適用
       cube.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
 
       if (rotateY > 90 && rotateY < 270) {

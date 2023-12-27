@@ -83,10 +83,10 @@
         }
       
         .cube {
-          width: 40%; /* Adjust cube width for smaller screens */
+          width: 90%; /* Adjust cube width for smaller screens */
           margin: 20px auto; /* Center the cubes */
-        }
         
+        }
         .details {
           text-align: center; /* Center-align product details */
         }
@@ -97,18 +97,20 @@
         }
 
         .face img {
-            width: 70%;
-            height: 70%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             transition: transform 0s ease;
           }
     
       }
       
-      .face:nth-child(1) { transform: rotateY(0deg) translateZ(70px); }
-      .face:nth-child(2) { transform: rotateY(90deg) translateZ(70px); }
-      .face:nth-child(3) { transform: rotateY(180deg) translateZ(70px); }
-      .face:nth-child(4) { transform: rotateY(-90deg) translateZ(70px); }
+      .face:nth-child(1) { transform: rotateY(0deg) translateZ(0px); }
+      .face:nth-child(2) { transform: rotateY(90deg) translateZ(0px); }
+      .face:nth-child(3) { transform: rotateY(180deg) translateZ(0px); }
+      .face:nth-child(4) { transform: rotateY(-90deg) translateZ(0px); }
+
+      
   </style>
 </head>
 <body>
@@ -280,11 +282,10 @@
         const cubeContainer = document.getElementById(containerId);
         const cubeWrapper = document.createElement('div');
         cubeWrapper.classList.add('cube-wrapper');
-      
+  
         const cube = document.createElement('div');
         cube.classList.add('cube');
-      
-        // 商品画像を4つの面に表示
+  
         for (let i = 1; i <= 4; i++) {
           const face = document.createElement('div');
           face.classList.add('face');
@@ -294,29 +295,28 @@
           face.appendChild(img);
           cube.appendChild(face);
         }
-      
+  
         cubeWrapper.appendChild(cube);
-      
-        // Display title, price, and coment
+  
         const details = document.createElement('div');
         details.classList.add('details');
-      
+  
         const title = document.createElement('h3');
         title.textContent = product.title;
-      
+  
         const price = document.createElement('p');
         price.textContent = `Price: ${product.price}`;
-      
+  
         const coment = document.createElement('p');
         coment.textContent = `Comment: ${product.coment}`;
-      
+  
         details.appendChild(title);
         details.appendChild(price);
         details.appendChild(coment);
-      
+  
         cubeWrapper.appendChild(details);
         cubeContainer.appendChild(cubeWrapper);
-      
+  
         let rotation = 0;
         cubeWrapper.addEventListener('click', () => {
           rotation += 90;
@@ -324,8 +324,7 @@
           cube.style.transform = `rotateY(${rotation}deg)`;
         });
       }
-      
-      // 商品情報をそれぞれの立方体に表示
+  
       products.forEach((product, index) => {
         if (index % 2 === 0) {
           displayProductImages('cubeContainer', product);
@@ -338,6 +337,20 @@
     </script>
   </body>
   </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- <!DOCTYPE html>
